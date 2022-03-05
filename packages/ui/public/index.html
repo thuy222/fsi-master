@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/loader.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="FUSANG Group : Providing institutional infrastructure for the digital asset economy in Asia."
+    />
+
+    <meta property="og:title" content="FUSANG Sign In" />
+    <meta
+      property="og:description"
+      content="FUSANG Group : Providing institutional infrastructure for the digital asset economy in Asia."
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/shared-image.jpg" />
+    <meta property="og:image:width" content="2362" />
+    <meta property="og:image:height" content="2362" />
+    <meta property="og:url" content="https://www.fusang.co" />
+    <meta property="og:site_name" content="FUSANG Sign In" />
+    <meta property="og:type" content="website" />
+
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>FUSANG Sign In</title>
+  </head>
+  <body
+    onload="forceToSignIn = setInterval(function(){ getSignInStatus(); }, 2000);"
+  >
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <div id="first-loader" class="loader-container">
+      <div class="ant-spin ant-spin-lg ant-spin-spinning">
+        <span class="ant-spin-dot ant-spin-dot-spin">
+          <i class="ant-spin-dot-item"></i>
+          <i class="ant-spin-dot-item"></i>
+          <i class="ant-spin-dot-item"></i>
+          <i class="ant-spin-dot-item"></i>
+        </span>
+      </div>
+    </div>
+  </body>
+  <script>
+    let forceToSignIn
+    function isInMiddleOfLoginProcess() {
+      const currentPatch = window.location.pathname.toString()
+      const redirectLink = window.sessionStorage.getItem('redirectLink')
+      const partOfLoginURL = 'interaction'
+      const verifyEmailURL = '/interaction/email/verification'
+
+      if (currentPatch.includes(verifyEmailURL)) {
+        return false
+      }
+
+      if (currentPatch.includes(partOfLoginURL)) {
+        return true
+      }
+
+      return false
+    }
+
+    function getSignInStatus() {
+      const url = window.location.hostname.toString()
+      const forceToLogin = getCookie(`${getEnvironmentName(url)}-forceToLogin`)
+      const redirectLink = window.sessionStorage.getItem('redirectLink')
+      if (isInMiddleOfLoginProcess() && (forceToLogin === 'true') && redirectLink) {
+        window.location = redirectLink
+      }
+    }
+    function getCookie(name) {
+      const value = `; ${document.cookie}`
+      const parts = value.split(`; ${name}=`)
+      if (parts.length === 2) return parts.pop().split(';').shift()
+    }
+
+    function getEnvironmentName(url) {
+      if (['poc', 'dev', 'dev2', 'dev3', 'qa', 'qa2', 'uat', 'uat2', 'stg', 'staging', 'staging2'].includes(url.split('.')[0])) {
+        return url.split('.')[0]
+      }
+      return ''
+    }
+
+    // ------------------------------------------------------------
+    // In case got error from fsi-client not update the version yet
+
+    let reloadCount = null
+    initializeReloadCount()
+
+    function initializeReloadCount() {
+      window.addEventListener('beforeunload', beforeUnloadHandler)
+      checkReload()
+    }
+
+    function checkReload() {
+      if (localStorage.getItem('reloadCount')) {
+        reloadCount = parseInt(localStorage.getItem('reloadCount'))
+      } else {
+        reloadCount = 0
+        localStorage.setItem('reloadCount', reloadCount)
+      }
+
+      if (
+        Math.floor(Date.now() / 1000) - localStorage.getItem('lastUnloadAt') <
+        5
+      ) {
+        onReloadDetected()
+      } else {
+        reloadCount = 0
+        localStorage.setItem('reloadCount', reloadCount)
+      }
+    }
+
+    function beforeUnloadHandler() {
+      localStorage.setItem('lastUnloadAt', Math.floor(Date.now() / 1000))
+      window.removeEventListener('beforeunload', beforeUnloadHandler)
+    }
+
+    function onReloadDetected() {
+      reloadCount = reloadCount + 1
+      localStorage.setItem('reloadCount', reloadCount)
+
+      if (reloadCount === 2) {
+        clearInterval(forceToSignIn)
+        resetReloadCount()
+      }
+    }
+
+    function resetReloadCount() {
+      window.removeEventListener('beforeunload', beforeUnloadHandler)
+      localStorage.removeItem('lastUnloadAt')
+      localStorage.removeItem('reloadCount')
+    }
+  </script>
+</html>

@@ -1,0 +1,73 @@
+{
+  "name": "@fsi/ui",
+  "version": "1.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.2.1",
+    "antd": "4.6.2",
+    "axios": "^0.19.2",
+    "@fusang/sso-client": "git+https://get-package:cK8j5sZzxCNhW9SDxj-8@gitlab.fusang.co/fusang/common/fs-sso-client.git#v2.1.24",
+    "lodash": "^4.17.20",
+    "psl": "^1.8.0",
+    "qrcode.react": "^1.0.0",
+    "react": "^16.13.1",
+    "react-app-rewired": "^2.1.6",
+    "react-dom": "^16.13.1",
+    "react-phone-number-input": "^3.0.22",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.1.1",
+    "universal-cookie": "^4.0.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-import": "^1.13.0",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^7.0.3",
+    "customize-cra": "^0.9.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "less": "^3.11.1",
+    "less-loader": "5.0.0",
+    "move-file-cli": "^2.0.0",
+    "redux-devtools-extension": "^2.13.8",
+    "webpack-bundle-analyzer": "^4.2.0"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3200 REACT_APP_BUILD_VERSION=$npm_package_version react-app-rewired start",
+    "build": "cross-env REACT_APP_BUILD_VERSION=$npm_package_version PUBLIC_URL=/public react-app-rewired build && move-file build ../api/client",
+    "test": "react-scripts test",
+    "lint": "eslint src/**/*.js src/*.js",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "resolutions": {
+    "amazon-cognito-identity-js": "4.5.0"
+  },
+  "proxy": "http://localhost:3201"
+}

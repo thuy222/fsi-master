@@ -1,0 +1,149 @@
+{
+  "name": "fsi",
+  "version": "1.1.0",
+  "main": "index.js",
+  "repository": "git@gitlab.fusang.co:fusang/sso/fsi.git",
+  "author": "Fusang",
+  "license": "ISC",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/api/**"
+    ]
+  },
+  "scripts": {
+    "bootstrap": "yarn add -D lerna -W && lerna bootstrap",
+    "start:api": "yarn workspace @fsi/api start",
+    "build:ui": "yarn workspace @fsi/api build-ui",
+    "start:ui": "yarn workspace @fsi/ui start",
+    "lint": "gulp lint",
+    "semantic-release": "semantic-release"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog",
+      "types": {
+        "feat": {
+          "description": "A new feature",
+          "title": "Feature"
+        },
+        "fix": {
+          "description": "A bug fix",
+          "title": "Bug Fix"
+        },
+        "docs": {
+          "description": "Documentation only changes",
+          "title": "Documentation"
+        },
+        "style": {
+          "description": "Changes that do not affect the meaning of the code (white-space, formatting, line-break, etc)",
+          "title": "Style"
+        },
+        "refactor": {
+          "description": "A code change that neither fixes a bug or adds a feature",
+          "title": "Code refactoring"
+        },
+        "perf": {
+          "description": "A code change that improves performance",
+          "title": "Performance Improvement"
+        },
+        "test": {
+          "description": "A code change that adds or modifies test code",
+          "title": "Test"
+        },
+        "chore": {
+          "description": "Changes that do not affect any code but changes project config such as package.json, gitlab-ci.yml, etc",
+          "title": "Chore"
+        },
+        "minor": {
+          "description": "A minor release",
+          "title": "Minor Release"
+        },
+        "major": {
+          "description": "A major release",
+          "title": "Major Release"
+        }
+      }
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional",
+      "@commitlint/config-lerna-scopes"
+    ],
+    "rules": {
+      "references-empty": [
+        2,
+        "never"
+      ],
+      "subject-case": [
+        0,
+        "never"
+      ],
+      "type-enum": [
+        2,
+        "always",
+        [
+          "feat",
+          "fix",
+          "docs",
+          "style",
+          "refactor",
+          "perf",
+          "test",
+          "chore",
+          "minor",
+          "major"
+        ]
+      ]
+    },
+    "parserPreset": {
+      "parserOpts": {
+        "issuePrefixes": [
+          "FCDA-"
+        ]
+      }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint --fix && git add .",
+      "commit-msg": "commitlint --env HUSKY_GIT_PARAMS",
+      "pre-push": "git diff HEAD --quiet"
+    }
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "@commitlint/config-lerna-scopes": "^12.0.1",
+    "@semantic-release/apm-config": "^8.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/gitlab": "^6.0.9",
+    "@semantic-release/npm": "^7.0.10",
+    "@semantic-release/release-notes-generator": "^9.0.2",
+    "commitizen": "^4.2.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.1",
+    "jest": "24.9.0",
+    "lerna": "^4.0.0",
+    "require-dir": "^1.2.0",
+    "semantic-release": "^17.4.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.875.0",
+    "chalk": "^4.1.0",
+    "esnext-scripts": "^1.5.2",
+    "execa": "^5.0.0",
+    "gulp": "^4.0.2",
+    "log-symbols": "^4.1.0",
+    "uuid": "^8.3.2"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "cognito" : {
+    "REGION": "ap-southeast-1",
+    "USER_POOL_ID": "ap-southeast-1_w1hSak8UL",
+    "APP_CLIENT_ID": "2m7ivvrk266igjd6400dep25c3"
+  },
+  "FUSANG_APPS" : [
+    {
+      "Name": "FSI-UAM",
+      "KEY" : "fusang-app-01",
+      "APP_CLIENT_ID": "2fuievbv56ksb5pq368dkiso2n",
+      "APP_CLIENT_SECRET": "4p9oe5ib47a392gfib91fqnoqqt0i7dfl4i4ibphcnkakcmnupt"
+    },
+    {
+      "Name": "FSS",
+      "KEY" : "fusang-app-02",
+      "APP_CLIENT_ID": "aj74b3ismd37sboaat0a18o5n",
+      "APP_CLIENT_SECRET": "cdi2of36tu1o1hl3sbpcnq9pifjj7vd59c42tavp1n68vkea42n"
+    }
+  ]
+}
+

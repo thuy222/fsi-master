@@ -1,0 +1,23 @@
+{
+  "name": "@fsi/core",
+  "version": "1.1.0",
+  "main": "src/index.js",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rimraf build coverage",
+    "prebuild": "yarn clean",
+    "purge": "yarn clean && rimraf node_modules",
+    "build": "esnext build src build",
+    "lint": "eslint .",
+    "test": "esnext test"
+  },
+  "dependencies": {
+    "@fusang/core": "git+http://gitlab+deploy-token-8:jBBezGz4znTJKppzquWn@gitlab.fusang.co/fusang/common/fusang-core.git#v1.0.81",
+    "confidence": "^5.0.1",
+    "esnext-scripts": "^1.4.0",
+    "immutable": "^4.0.0-rc.12",
+    "oidc-provider": "6.27.4",
+    "pino": "^6.11.2",
+    "pino-pretty": "^4.7.1"
+  }
+}
